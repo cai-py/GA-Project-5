@@ -5,8 +5,11 @@ class App extends React.Component {
     }
 
     componentDidMount = () => {
-        this.setState({
-            page: 'site'
+        axios.get('/library').then(response => {
+            this.setState({
+                songs: response.data,
+                page: 'site'
+            })
         })
     }
 
@@ -16,8 +19,12 @@ class App extends React.Component {
                 <Nav
                     signIn={this.signIn}
                 />
+
                 {(this.state.page === 'banner')?<Banner/>:null}
-                {(this.state.page === 'site')?<Index/>:null}
+
+                {(this.state.page === 'site')?<Index
+                    songs={this.state.songs}
+                />:null}
             </div>
         )
     }
@@ -57,8 +64,13 @@ class Banner extends React.Component {
 class Index extends React.Component {
     render = () => {
         return (
-            <div className="bg-gray-500 my-6">
-                <h1>a;lsdkjg;lksahglk</h1>
+            <div className="index my-6">
+                {this.props.songs.map(song => {
+                    return <div className="song bg-green-300 m-3 border-2 rounded-md border-blue-600">
+                        <h1>{song.title}</h1>
+                        <p>{song.composer}</p>
+                    </div>
+                })}
             </div>
         )
     }

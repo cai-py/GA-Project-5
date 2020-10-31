@@ -18,7 +18,7 @@ library.get('/seed', (req,res) => {
 })
 
 // //======================
-// //  INDEX ROUTE -working
+// //  INDEX ROUTE -works
 // //======================
 
 library.get('/', (req, res) => {
@@ -29,7 +29,7 @@ library.get('/', (req, res) => {
 
 
 // //========================
-// // CREATE ROUTE -working
+// // CREATE ROUTE -works
 // //========================
 
 library.post('/new', (req, res) => {
