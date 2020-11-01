@@ -36,7 +36,6 @@ class App extends React.Component {
     }
 
     open = (event) => {
-        console.log('open: ' + event.target.id)
         axios.get('/library/' + event.target.id).then(response => 
             this.setState({
                 page: 'view',
@@ -49,11 +48,21 @@ class App extends React.Component {
         this.setState({[event.target.id]: event.target.value})
     }
 
-    submit = (event) => {
+    submit = () => {
         axios.post('/library/new', this.state).then(response => 
             this.setState({
                 songs: response.data
             })    
+        )
+    }
+
+    edit = (event) => {
+        event.preventDefault()
+        console.log(event.target.id)
+        axios.put('/library/' + event.target.id, this.state).then(response => 
+            this.setState({
+                song: response.data
+            })
         )
     }
 
@@ -79,6 +88,8 @@ class App extends React.Component {
                 {(this.state.page === 'view')?<View
                     song={this.state.song}
                     index={this.index}
+                    change={this.change}
+                    edit={this.edit}
                 />:null}
             </div>
         )
@@ -167,8 +178,27 @@ class View extends React.Component {
     render = () => {
         return (
             <div>
-                {console.log(this.props.song)}
                 <button className="bg-gray-600 border-2 border-gray-700" onClick={this.props.index}>BACK</button>
+                <details>
+                    <summary>Edit</summary>
+                    <form className="flex flex-col" id={this.props.song._id} onSubmit={this.props.edit}>
+                        <div>
+                            <label htmlFor="title">Title: </label>
+                            <input name="title" type="text" id="title" placeholder={this.props.song.title} onChange={this.props.change}></input>
+                        </div>
+                        <div>
+                            <label htmlFor="composer">Composer: </label>
+                            <input name="composer" type="composer" id="composer" placeholder={this.props.song.composer} onChange={this.props.change}></input>
+                        </div>
+                        <div>
+                            <label htmlFor="sheetMusic">Sheet Music: </label>
+                            <input name="sheetMusic" type="sheetMusic" id="sheetMusic" placeholder={this.props.song.sheetMusic} onChange={this.props.change}></input>
+                        </div>
+                        <div>
+                            <input type="submit"/>
+                        </div>
+                    </form>
+                </details>
                 <img src={this.props.song.sheetMusic}/>
             </div>
         )
