@@ -27,6 +27,15 @@ library.get('/', (req, res) => {
     })
 })
 
+// //======================
+// //  VIEW ROUTE -works
+// //======================
+
+library.get('/:id', (req, res) => {
+    Library.findById(req.params.id, (err, foundSong) => {
+        res.json(foundSong)
+    })
+})
 
 // //========================
 // // CREATE ROUTE -works
