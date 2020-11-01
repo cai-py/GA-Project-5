@@ -99,26 +99,30 @@ class Nav extends React.Component {
                     <ul className="lg:flex lg:items-center lg:w-full justify-around text-base text-gray-700">
                         <li><a className="px-0 block border-b-2 border-transparent hover:border-indigo-400 hover:no-underline lg:mb-0" href="#" onClick={this.props.signIn}>Sign In</a></li>
                         <li><a className="px-0 block border-b-2 border-transparent hover:border-indigo-400 hover:no-underline lg:mb-0" href="#">Log In</a></li>
+                        <li><details>
+                            <summary>New</summary>
+                            <form className="flex flex-col" onSubmit={this.props.submit}>
+                                <div>
+                                    <label for="title">Title: </label>
+                                    <input name="title" type="text" id="title" onChange={this.props.change}></input>
+                                </div>
+                                <div>
+                                    <label for="composer">Composer: </label>
+                                    <input name="composer" type="composer" id="composer" onChange={this.props.change}></input>
+                                </div>
+                                <div>
+                                    <label for="sheetMusic">Sheet Music: </label>
+                                    <input name="sheetMusic" type="sheetMusic" id="sheetMusic" onChange={this.props.change}></input>
+                                </div>
+                                <div>
+                                    <input type="submit"/>
+                                </div>
+                            </form>
+                        </details></li>
                     </ul>
                 </div>
 
-                <form className="flex flex-col" onSubmit={this.props.submit}>
-                    <div>
-                        <label for="title">Title: </label>
-                        <input name="title" type="text" id="title" onChange={this.props.change}></input>
-                    </div>
-                    <div>
-                        <label for="composer">Composer: </label>
-                        <input name="composer" type="composer" id="composer" onChange={this.props.change}></input>
-                    </div>
-                    <div>
-                        <label for="sheetMusic">Sheet Music: </label>
-                        <input name="/sheetMusic" type="sheetMusic" onChange={this.props.change}></input>
-                    </div>
-                    <div>
-                        <input type="submit"/>
-                    </div>
-                </form>
+                
             </header>
         )
     }
