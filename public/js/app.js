@@ -45,12 +45,26 @@ class App extends React.Component {
         )
     }
 
+    change = event => {
+        this.setState({[event.target.id]: event.target.value})
+    }
+
+    submit = (event) => {
+        axios.post('/library/new', this.state).then(response => 
+            this.setState({
+                songs: response.data
+            })    
+        )
+    }
+
     render = () => {
         return (
             <div className="">
                 <Nav
                     signIn={this.signIn}
                     page={this.state.page}
+                    change={this.change}
+                    submit={this.submit}
                 />
 
                 {(this.state.page === 'banner')?<Banner/>:null}
@@ -59,6 +73,7 @@ class App extends React.Component {
                     songs={this.state.songs}
                     delete={this.delete}
                     open={this.open}
+                    
                 />:null}
 
                 {(this.state.page === 'view')?<View
@@ -86,6 +101,24 @@ class Nav extends React.Component {
                         <li><a className="px-0 block border-b-2 border-transparent hover:border-indigo-400 hover:no-underline lg:mb-0" href="#">Log In</a></li>
                     </ul>
                 </div>
+
+                <form className="flex flex-col" onSubmit={this.props.submit}>
+                    <div>
+                        <label for="title">Title: </label>
+                        <input name="title" type="text" id="title" onChange={this.props.change}></input>
+                    </div>
+                    <div>
+                        <label for="composer">Composer: </label>
+                        <input name="composer" type="composer" id="composer" onChange={this.props.change}></input>
+                    </div>
+                    <div>
+                        <label for="sheetMusic">Sheet Music: </label>
+                        <input name="/sheetMusic" type="sheetMusic" onChange={this.props.change}></input>
+                    </div>
+                    <div>
+                        <input type="submit"/>
+                    </div>
+                </form>
             </header>
         )
     }
@@ -106,28 +139,20 @@ class Index extends React.Component {
         return (
             <div className="index my-6">
                 {this.props.songs.map(song => {
-                    return <div className="song flex align-middle justify-between bg-green-300 m-3 border-2 rounded-md border-blue-600">
-                        <div>
-                            <h1><a className="hover:underline" id={song._id} onClick={this.props.open}>{song.title}</a></h1>
-                            <p>{song.composer}</p>
+                    return (
+                        <div key={song._id} className="song bg-green-300 m-3 border-2 rounded-md border-blue-600 p-2">
+                            <div className="flex align-middle justify-between">
+                                <div>
+                                    <h1><a className="hover:underline" id={song._id} onClick={this.props.open}>{song.title}</a></h1>
+                                    <p>{song.composer}</p>
+                                </div>
+                                <div>
+                                    <button className="bg-gray-600 border-2 border-gray-700">EDIT</button>
+                                    <button className="bg-gray-600 border-2 border-gray-700" value={song._id} onClick={this.props.delete}>DELETE</button>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <button className="bg-gray-600 border-2 border-gray-700">EDIT</button>
-                            <button className="bg-gray-600 border-2 border-gray-700" value={song._id} onClick={this.props.delete}>DELETE</button>
-                        </div>
-                        <div>
-                            <form>
-                                <label></label>
-                                <input></input>
-
-                                <label></label>
-                                <input></input>
-
-                                <label></label>
-                                <input></input>
-                            </form>
-                        </div>
-                    </div>
+                    )
                 })}
             </div>
         )
