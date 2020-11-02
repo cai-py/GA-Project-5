@@ -162,7 +162,6 @@ class Index extends React.Component {
                                     <p>{song.composer}</p>
                                 </div>
                                 <div>
-                                    <button className="bg-gray-600 border-2 border-gray-700">EDIT</button>
                                     <button className="bg-gray-600 border-2 border-gray-700" value={song._id} onClick={this.props.delete}>DELETE</button>
                                 </div>
                             </div>
